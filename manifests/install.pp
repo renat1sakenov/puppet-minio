@@ -72,7 +72,7 @@
 # Copyright 2017 Daniel S. Reichenbach <https://kogitoapp.com>
 #
 class minio::install (
-  Enum['present', 'absent'] $package_ensure = $minio::package_ensure,
+  Enum['present', 'absent', 'default'] $package_ensure = $minio::package_ensure,
   String $owner                   = $minio::owner,
   String $group                   = $minio::group,
 
@@ -122,7 +122,7 @@ class minio::install (
     notify => Exec["permissions:${log_directory}"],
   }
 
-  if ($package_ensure) {
+  if ($package_ensure != 'default') {
     $kernel_down=downcase($::kernel)
 
     case $::architecture {
