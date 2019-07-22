@@ -93,7 +93,7 @@
 # Copyright 2017 Daniel S. Reichenbach <https://kogitoapp.com>
 #
 class minio (
-  Enum['present', 'absent', 'default'] $package_ensure,
+  Enum['present', 'absent'] $package_ensure,
 
   Boolean $manage_user,
   Boolean $manage_group,
