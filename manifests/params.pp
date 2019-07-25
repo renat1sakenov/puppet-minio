@@ -1,0 +1,30 @@
+class minio::params {
+
+  $package_ensure                    = 'present' 
+  $manage_user                       = false
+  $manage_group                      = false
+  $manage_home                       = false
+  $owner                             = 'minio'
+  $group                             = 'minio'
+  $home                              = '/home/minio'
+  $listen_ip                         = '127.0.0.1'
+  $listen_port                       = 9000
+  $configuration_directory           = '/etc/minio'
+  $environment_file                  = "${configuration_directory}/minio.env"
+  $service_template                  = 'minio/systemd.erb'
+  $service_path                      = '/lib/systemd/system/minio.service'
+  $service_provider                  = 'systemd'
+  $service_mode                      = '0644'
+  $manage_service                    =  true
+  $storage_root                      = '/opt/minio-storage'
+  $installation_directory            = '/opt/minio'
+  $checksum_type                     = 'sha256'
+  $checksum                          = undef
+  $version                           = undef
+  $base_url                          = undef
+  $accessKey                         = 'minio'
+  $secretKey                         = 'password'
+  $region                            = 'minio'
+  $browser                           = 'on'
+  $http_logger                       = ''
+}

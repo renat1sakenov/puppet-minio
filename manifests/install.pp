@@ -37,9 +37,6 @@
 # * `storage_root`
 # Directory where minio will keep all files. Default: '/var/minio'
 #
-# * `log_directory`
-# Log directory for minio. Default: '/var/log/minio'
-#
 # * `listen_ip`
 # IP address on which Minio should listen to requests.
 #
@@ -83,7 +80,6 @@ class minio::install (
   String $configuration_directory = $minio::configuration_directory,
   String $installation_directory  = $minio::installation_directory,
   String $storage_root            = $minio::storage_root,
-  String $log_directory           = $minio::log_directory,
   String $listen_ip               = $minio::listen_ip,
   Integer $listen_port            = $minio::listen_port,
 
@@ -113,13 +109,6 @@ class minio::install (
     owner  => $owner,
     group  => $group,
     notify => Exec["permissions:${installation_directory}"],
-  }
-
-  -> file { $log_directory:
-    ensure => 'directory',
-    owner  => $owner,
-    group  => $group,
-    notify => Exec["permissions:${log_directory}"],
   }
 
   if ($package_ensure) {
@@ -176,11 +165,6 @@ class minio::install (
     refreshonly => true,
   }
 
-  exec { "permissions:${log_directory}":
-    command     => "chown -Rf ${owner}:${group} ${log_directory}",
-    path        => '/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin',
-    refreshonly => true,
-  }
 
   if ($manage_service) {
     file { "service:${service_path}":

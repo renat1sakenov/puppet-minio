@@ -39,9 +39,6 @@
 # * `checksum_type`
 # Type of checksum used to verify the binary being installed. Default: 'sha256'
 #
-# * `configuration_directory`
-# Directory holding Minio configuration file. Default: '/etc/minio'
-#
 # * `installation_directory`
 # Target directory to hold the minio installation. Default: '/opt/minio'
 #
@@ -93,34 +90,35 @@
 # Copyright 2017 Daniel S. Reichenbach <https://kogitoapp.com>
 #
 class minio (
-  Enum['present', 'absent'] $package_ensure,
+  Enum['present','absent'] $package_ensure  = $::minio::params::package_ensure,
+  Boolean $manage_user                      = $::minio::params::manage_user,
+  Boolean $manage_group                     = $::minio::params::manage_group,
+  Boolean $manage_home                      = $::minio::params::manage_home,
+  String $owner                             = $::minio::params::owner,
+  String $group                             = $::minio::params::group,
+  Optional[String] $home                    = $::minio::params::home,
+  String $environment_file                  = $::minio::params::environment_file,
+  String $configuration_directory           = $::minio::params::configuration_directory,
+  Boolean $manage_service                   = $::minio::params::manage_service, 
+  String $service_template                  = $::minio::params::service_template,
+  String $service_path                      = $::minio::params::service_path,
+  String $service_provider                  = $::minio::params::service_provider,
+  String $service_mode                      = $::minio::params::service_mode,
+  String $storage_root                      = $::minio::params::storage_root,
+  String $base_url                          = $::minio::params::base_url,
+  String $version                           = $::minio::params::version,
+  String $checksum                          = $::minio::params::checksum,
+  String $checksum_type                     = $::minio::params::checksum_type,
+  String $installation_directory            = $::minio::params::installation_directory,
+  String $listen_ip                         = $::minio::params::listen_ip,
+  Integer $listen_port                      = $::minio::params::listen_port,
+  String $accessKey                         = $::minio::params::accessKey,
+  String $secretKey                         = $::minio::params::secretKey,
+  String $region                            = $::minio::params::region,
+  String $browser                           = $::minio::params::browser,
+  String $http_logger                       = $::minio::params::http_logger
 
-  Boolean $manage_user,
-  Boolean $manage_group,
-  Boolean $manage_home,
-  String $owner,
-  String $group,
-  Optional[String] $home,
-
-  String $base_url,
-  String $version,
-  String $checksum,
-  String $checksum_type,
-  String $configuration_directory,
-  String $installation_directory,
-  String $storage_root,
-  String $log_directory,
-  String $listen_ip,
-  Integer $listen_port,
-
-  Hash $configuration,
-
-  Boolean $manage_service,
-  String $service_template,
-  String $service_path,
-  String $service_provider,
-  String $service_mode,
-  ) {
+  ) inherits minio::params {
 
   class { '::minio::user': }
   class { '::minio::install': }
