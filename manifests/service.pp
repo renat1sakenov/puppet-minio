@@ -27,6 +27,7 @@ class minio::service (
   String $service_provider = $minio::service_provider,
   ) {
 
+
   if ($manage_service) {
     service { 'minio':
       ensure     => 'running',

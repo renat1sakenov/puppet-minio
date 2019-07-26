@@ -22,9 +22,20 @@ class minio::params {
   $checksum                          = undef
   $version                           = undef
   $base_url                          = undef
-  $accessKey                         = 'minio'
-  $secretKey                         = 'password'
-  $region                            = 'minio'
-  $browser                           = 'on'
-  $http_logger                       = ''
+
+  $env_variables = {
+      accessKey                 => 'minio',
+      secretKey                 => 'password',
+      region                    => 'minio',
+      browser                   => 'on',
+      worm                      => 'off',
+      domain                    => '',
+      public_ips                => '',
+      etcd_endpoints            => '',
+      sse_vault_endpoint        => '',
+      sse_vault_approle_id      => '',
+      sse_vault_approle_secret  => '',
+      sse_vault_key_name        => ''
+      
+  }
 }

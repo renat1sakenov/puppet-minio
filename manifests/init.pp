@@ -112,11 +112,7 @@ class minio (
   String $installation_directory            = $::minio::params::installation_directory,
   String $listen_ip                         = $::minio::params::listen_ip,
   Integer $listen_port                      = $::minio::params::listen_port,
-  String $accessKey                         = $::minio::params::accessKey,
-  String $secretKey                         = $::minio::params::secretKey,
-  String $region                            = $::minio::params::region,
-  String $browser                           = $::minio::params::browser,
-  String $http_logger                       = $::minio::params::http_logger
+  Hash $env_variables                       = $::minio::params::env_variables
 
   ) inherits minio::params {
 

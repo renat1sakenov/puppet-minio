@@ -82,6 +82,7 @@ class minio::install (
   String $storage_root            = $minio::storage_root,
   String $listen_ip               = $minio::listen_ip,
   Integer $listen_port            = $minio::listen_port,
+  String $environment_file        = $minio::environment_file,
 
   Boolean $manage_service         = $minio::manage_service,
   String $service_template        = $minio::service_template,
