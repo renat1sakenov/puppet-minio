@@ -9,15 +9,6 @@
 # * `package_ensure`
 # Decides if the `minio` binary will be installed. Default: 'present'
 #
-# * `manage_user`
-# Should we manage provisioning the user? Default: true
-#
-# * `manage_group`
-# Should we manage provisioning the group? Default: true
-#
-# * `manage_home`
-# Should we manage provisioning the home directory? Default: true
-#
 # * `owner`
 # The user owning minio and its' files. Default: 'minio'
 #
@@ -95,9 +86,6 @@
 #
 class minio (
   Enum['present','absent'] $package_ensure  = $::minio::params::package_ensure,
-  Boolean $manage_user                      = $::minio::params::manage_user,
-  Boolean $manage_group                     = $::minio::params::manage_group,
-  Boolean $manage_home                      = $::minio::params::manage_home,
   String $owner                             = $::minio::params::owner,
   String $group                             = $::minio::params::group,
   Optional[String] $home                    = $::minio::params::home,
@@ -121,7 +109,6 @@ class minio (
 
   ) inherits minio::params {
 
-  class { '::minio::user': }
   class { '::minio::install': }
 
   class { '::minio::config': }
@@ -131,7 +118,6 @@ class minio (
   anchor { 'minio::end': }
 
   Anchor['minio::begin']
-  -> Class['minio::user']
   -> Class['minio::install']
   -> Class['minio::config']
   ~> Class['minio::service']

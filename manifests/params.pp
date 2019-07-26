@@ -5,9 +5,6 @@
 class minio::params {
 
   $package_ensure                    = 'present' 
-  $manage_user                       = false
-  $manage_group                      = false
-  $manage_home                       = false
   $owner                             = 'minio'
   $group                             = 'minio'
   $home                              = '/home/minio'
