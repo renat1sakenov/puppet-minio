@@ -1,3 +1,7 @@
+# Class: minio::params
+# ===========================
+# Default values 
+#
 class minio::params {
 
   $package_ensure                    = 'present' 
@@ -11,6 +15,7 @@ class minio::params {
   $listen_port                       = 9000
   $configuration_directory           = '/etc/minio'
   $environment_file                  = "${configuration_directory}/minio.env"
+  $environment_file_template         = 'minio/minio.env.erb'
   $service_template                  = 'minio/systemd.erb'
   $service_path                      = '/lib/systemd/system/minio.service'
   $service_provider                  = 'systemd'

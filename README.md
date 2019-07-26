@@ -36,6 +36,47 @@ include ::minio
 
 ## Reference
 
+Management of user, group and home is set to false (default).  
+The configuration is managed by enviroment variables. Those are written into `/etc/minio/minio.env` and included into the service file.  
+The available enviroment variables are:  
+```
+accessKey
+secretKey
+region
+browser
+worm
+domain
+public_ips
+etcd_endpoints
+sse_vault_endpoint
+sse_vault_approle_id
+sse_vault_approle_secret
+sse_vault_key_name
+```
+
+Here is an example yaml configuration:  
+
+```
+---
+version: 'RELEASE.2019-03-20T22-38-47Z'
+checksum: '40f7ad9396fa377a6573859786e54c732b1080e4d93aee54e617c7441e449d2e'
+package_ensure: 'present'
+base_url: 'http://file-server.company/archive/minio'
+manage_user: true
+manage_group: true
+manage_home: true
+listen_ip: '127.0.0.1'
+listen_port: 9000
+storage_root: '/opt/minio-storage'
+env_variables:
+  accessKey: 'minio'
+  secretKey: 'password'
+  region: 'minio'
+  browser: 'on'
+```
+
+
+
 ### Class: `minio`
 
 ```puppet
@@ -50,20 +91,26 @@ class { 'minio':
     version => 'RELEASE.2017-05-05T01-14-51Z',
     checksum => '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556',
     checksum_type => 'sha256',
-    configuration_directory => '/etc/minio',
     installation_directory => '/opt/minio',
-    storage_root => '/var/minio',
-    log_directory => '/var/log/minio',
+    storage_root => '/opt/minio-storage',
     listen_ip => '127.0.0.1',
     listen_port => '9000',
-    configuration => {
-        'credential' => {
-          'accessKey' => 'ADMIN',
-          'secretKey' => 'PASSWORD',
-        },
-        'region' => 'us-east-1',
-        'browser' => 'on',
-    },
+    environment_file => '/etc/minio/minio.env'
+    environement_file_template => 'minio/minio.env.erb'
+    env_variables => {
+      accessKey => 'minio',
+      secretKey => 'password',
+      region => 'minio',
+      browser => 'on',
+      worm => 'off',
+      domain => '',
+      public_ips => '',
+      etcd_endpoints => '',
+      sse_vault_endpoint => '',
+      sse_vault_approle_id => '',
+      sse_vault_approle_secret => '',
+      sse_vault_key_name => ''
+    }   
     manage_service => true,
     service_template => 'minio/systemd.erb',
     service_path => '/lib/systemd/system/minio.service',
@@ -76,9 +123,9 @@ class { 'minio':
 
 ```puppet
 class { 'minio::user':
-    manage_user => true,
-    manage_group => true,
-    manage_home => true,
+    manage_user => false,
+    manage_group => false,
+    manage_home => false,
     owner => 'minio',
     group => 'minio',
     home => '/home/minio',
@@ -96,10 +143,10 @@ class { 'minio::install':
     checksum => '59cd3fb52292712bd374a215613d6588122d93ab19d812b8393786172b51d556',
     checksum_type => 'sha256',
     installation_directory => '/opt/minio',
-    storage_root => '/var/minio',
-    log_directory => '/var/log/minio',
+    storage_root => '/opt/minio-storage',
     listen_ip => '127.0.0.1',
     listen_port => '9000',
+    environement_file => '/etc/minio/minio.env'
     manage_service => true,
     service_template => 'minio/systemd.erb',
     service_path => '/lib/systemd/system/minio.service',
@@ -121,19 +168,24 @@ class { 'minio::service':
 
 ```puppet
 class { 'minio::config':
-    configuration => {
-        'credential' => {
-          'accessKey' => 'ADMIN',
-          'secretKey' => 'PASSWORD',
-        },
-        'region' => 'us-east-1',
-        'browser' => 'on',
-    },
     owner => 'minio',
     group => 'minio',
     installation_directory => '/opt/minio',
     storage_root => '/var/minio',
-    log_directory => '/var/log/minio',
+    env_variables => {
+      accessKey => 'minio',
+      secretKey => 'password',
+      region => 'minio',
+      browser => 'on',
+      worm => 'off',
+      domain => '',
+      public_ips => '',
+      etcd_endpoints => '',
+      sse_vault_endpoint => '',
+      sse_vault_approle_id => '',
+      sse_vault_approle_secret => '',
+      sse_vault_key_name => ''
+    }
 }
 ```
 

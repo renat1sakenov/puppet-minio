@@ -27,6 +27,12 @@
 # * `home`
 # Qualified path to the users' home directory. Default: empty
 #
+# * `environment_file`
+# Path to the .env file for the service
+#
+# * `environment_file_template`
+# Path to the template for the .env file
+#
 # * `base_url`
 # Download base URL. Default: Github. Can be used for local mirrors.
 #
@@ -45,17 +51,15 @@
 # * `storage_root`
 # Directory where minio will keep all data. Default: '/var/minio'
 #
-# * `log_directory`
-# Log directory for minio. Default: '/var/log/minio'
-#
 # * `listen_ip`
 # IP address on which Minio should listen to requests.
 #
 # * `listen_port`
 # Port on which Minio should listen to requests.
 #
-# * `configuration`
-# Hash style settings for configuring Minio.
+# * `env_variables`
+# Hash style settings for configuring Minio through environement variables
+#
 #
 # * `manage_service`
 # Should we manage a service definition for Minio?
@@ -98,6 +102,7 @@ class minio (
   String $group                             = $::minio::params::group,
   Optional[String] $home                    = $::minio::params::home,
   String $environment_file                  = $::minio::params::environment_file,
+  String $environment_file_template         = $::minio::params::environment_file_template,
   String $configuration_directory           = $::minio::params::configuration_directory,
   Boolean $manage_service                   = $::minio::params::manage_service, 
   String $service_template                  = $::minio::params::service_template,
