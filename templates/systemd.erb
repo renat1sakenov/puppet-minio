@@ -14,7 +14,7 @@ Group=<%= @group %>
 
 PermissionsStartOnly=true
 
-EnvironmentFile=<% @environment_file %>
+EnvironmentFile=<%= @environment_file %>
 ExecStart=<%= @installation_directory %>/minio server --address <%= @listen_ip %>:<%= @listen_port %> <%= @storage_root %>
 
 StandardOutput=journal
